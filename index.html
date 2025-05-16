@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Entrenar Modelo IA</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2em;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1em;
+    }
+
+    .header h1 {
+      margin: 0;
+    }
+
+    .main-container {
+      display: flex;
+      gap: 2em;
+    }
+
+    .form-section, .batch-section {
+      flex: 1;
+    }
+
+    .collapsible {
+      background-color: #eee;
+      color: #444;
+      cursor: pointer;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .active, .collapsible:hover {
+      background-color: #ccc;
+    }
+
+    .content {
+      padding: 0 15px;
+      display: none;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    form label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    form input, form select {
+      width: 100%;
+      padding: 5px;
+      margin-top: 5px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      font-size: 16px;
+    }
+
+    .results {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Predicción de Peso Fetal</h1>
+    <div>
+      <label for="modelSelect">Selecciona el modelo de predicción:</label>
+      <select id="modelSelect" name="modelSelect" required>
+        <option value="logistic">Regresión Logística</option>
+        <option value="svm">SVM</option>
+        <option value="neural_net">Red Neuronal</option>
+        <option value="fcm">Mapa Cognitivo Difuso</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="form-section">
+      <button type="button" class="collapsible">Formulario de predicción individual</button>
+      <div class="content">
+        <form id="predictForm">
+          <label for="C1">Edad (C1)</label>
+            <input type="number" id="C1" name="C1" step="any" required>
+
+            <label for="C2">Índice de Masa Corporal (BMI) (C2)</label>
+            <input type="number" id="C2" name="C2" step="any" required>
+
+            <label for="C3">Edad gestacional al momento del parto (C3)</label>
+            <input type="number" id="C3" name="C3" step="any" required>
+
+            <label for="C4">Gravidez (C4)</label>
+            <input type="number" id="C4" name="C4" step="any" required>
+
+            <label for="C5">Paridad (C5)</label>
+            <input type="number" id="C5" name="C5" step="any" required>
+
+            <label for="C6">Síntomas iniciales (C6)</label>
+            <select id="C6" name="C6" required>
+                <option value="0">Edema</option>
+                <option value="1">Hipertensión</option>
+                <option value="2">FGR</option>
+            </select>
+
+            <label for="C7">Edad gestacional al inicio de síntomas (C7)</label>
+            <input type="number" id="C7" name="C7" step="any" required>
+
+            <label for="C8">Intervalo desde el inicio de los síntomas hasta el parto (C8)</label>
+            <input type="number" id="C8" name="C8" step="any" required>
+
+            <label for="C9">Edad gestacional al inicio de hipertensión (C9)</label>
+            <input type="number" id="C9" name="C9" step="any" required>
+
+            <label for="C10">Intervalo desde el inicio de hipertensión hasta el parto (C10)</label>
+            <input type="number" id="C10" name="C10" step="any" required>
+
+            <label for="C11">Edad gestacional al inicio de edema (C11)</label>
+            <input type="number" id="C11" name="C11" step="any" required>
+
+            <label for="C12">Intervalo desde el inicio de edema hasta el parto (C12)</label>
+            <input type="number" id="C12" name="C12" step="any" required>
+
+            <label for="C13">Edad gestacional al inicio de proteinuria (C13)</label>
+            <input type="number" id="C13" name="C13" step="any" required>
+
+            <label for="C14">Intervalo desde el inicio de proteinuria hasta el parto (C14)</label>
+            <input type="number" id="C14" name="C14" step="any" required>
+
+            <label for="C15">Tratamiento expectante (C15)</label>
+            <input type="number" id="C15" name="C15" required>
+
+            <label for="C16">Terapia anti-hipertensiva antes de la hospitalización (C16)</label>
+            <input type="number" id="C16" name="C16" required>
+
+            <label for="C17">Historia clínica (C17)</label>
+            <select id="C17" name="C17" required>
+                <option value="0">No</option>
+                <option value="1">Hipertensión</option>
+                <option value="2">PCOS</option>
+            </select>
+
+            <label for="C18">Presión sistólica máxima (C18)</label>
+            <input type="number" id="C18" name="C18" step="any" required>
+
+            <label for="C19">Presión diastólica máxima (C19)</label>
+            <input type="number" id="C19" name="C19" step="any" required>
+
+            <label for="C20">Razones para la entrega (C20)</label>
+            <select id="C20" name="C20" required>
+                <option value="0">Síndrome HELLP</option>
+                <option value="1">Distress fetal</option>
+                <option value="2">Disfunción orgánica</option>
+                <option value="3">Hipertensión no controlada</option>
+                <option value="4">Edema</option>
+                <option value="5">FGR</option>
+            </select>
+
+            <label for="C21">Modo de entrega (C21)</label>
+            <select id="C21" name="C21" required>
+                <option value="0">CS</option>
+                <option value="1">Odinopoeia</option>
+            </select>
+
+            <label for="C22">Valor máximo de BNP (C22)</label>
+            <input type="number" id="C22" name="C22" step="any" required>
+
+            <label for="C23">Valor máximo de creatinina (C23)</label>
+            <input type="number" id="C23" name="C23" step="any" required>
+
+            <label for="C24">Valor máximo de ácido úrico (C24)</label>
+            <input type="number" id="C24" name="C24" step="any" required>
+
+            <label for="C25">Valor máximo de proteinuria (C25)</label>
+            <input type="number" id="C25" name="C25" step="any" required>
+
+            <label for="C26">Valor máximo de proteína total (C26)</label>
+            <input type="number" id="C26" name="C26" step="any" required>
+
+            <label for="C27">Valor máximo de albúmina (C27)</label>
+            <input type="number" id="C27" name="C27" step="any" required>
+
+            <label for="C28">Valor máximo de ALT (C28)</label>
+            <input type="number" id="C28" name="C28" step="any" required>
+
+            <label for="C29">Valor máximo de AST (C29)</label>
+            <input type="number" id="C29" name="C29" step="any" required>
+
+            <label for="C30">Valor máximo de plaquetas (C30)</label>
+            <input type="number" id="C30" name="C30" step="any" required>
+
+          <button type="submit">Predecir</button>
+        </form>
+
+        <div class="results" id="results" style="display:none;">
+          <h2>Resultado:</h2>
+          <p id="predictionResult"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="batch-section">
+      <h2>Predicción por lote (Batch)</h2>
+      <form id="batchForm" enctype="multipart/form-data">
+        <label for="csvFile">Sube un CSV de prueba:</label>
+        <input type="file" name="csv" id="csvFile" accept=".csv" required><br><br>
+
+        <button type="submit">Evaluar Lote</button>
+      </form>
+
+      <div id="batchResult" style="margin-top: 1em;"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // JS para la caja desplegable
+    document.addEventListener("DOMContentLoaded", function () {
+      const coll = document.querySelector(".collapsible");
+      const content = document.querySelector(".content");
+
+      coll.addEventListener("click", function () {
+        this.classList.toggle("active");
+        content.style.display = content.style.display === "block" ? "none" : "block";
+      });
+    });
+  </script>
+</body>
+</html>

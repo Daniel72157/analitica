@@ -1,0 +1,34 @@
+# Ignora entornos virtuales
+fcm_env64/
+env/
+venv/
+ENV/
+.venv/
+
+# Ignora archivos de Python compilados
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Ignora archivos grandes innecesarios
+*.pyd
+*.dll
+*.exe
+*.so
+*.dylib
+
+# Archivos de configuración del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de Jupyter
+.ipynb_checkpoints/
+
+# Configuración de VSCode y otros editores
+.vscode/
+.idea/
+
+# Archivos de log o temporales
+*.log
+*.tmp
+*.bak
