@@ -11,7 +11,6 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 import pandas as pd
 import cgi
 
-PUERTO = 8080
 RUTA_MODELOS = Path("modelos")
 
 escalador = joblib.load(RUTA_MODELOS / "escalador_estandar.pkl")
@@ -111,6 +110,8 @@ class Manejador(http.server.SimpleHTTPRequestHandler):
         return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
 if __name__ == "__main__":
-    print(f"Servidor iniciado en http://localhost:{PUERTO}")
-    with socketserver.TCPServer(("", PUERTO), Manejador) as servidor:
-        servidor.serve_forever()
+    PORT = int(os.environ.get("PORT", 8080)) 
+
+    print(f"Servidor iniciado en http://localhost:{PORT}")
+    with socketserver.TCPServer(("0.0.0.0", PORT), Manejador) as httpd:
+        httpd.serve_forever()
